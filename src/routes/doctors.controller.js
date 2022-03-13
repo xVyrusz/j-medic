@@ -24,10 +24,10 @@ const doctorCreation = async (data) => {
     console.log(user);
     console.log(cedula);
 
-    if (user[0].usuario == data.usuario) {
+    if (user.length >= 1) {
         throw boom.conflict('El usuario ya existe');
     } else {
-        if (cedula[0].cedula == data.cedula) {
+        if (cedula.length >= 1) {
             throw boom.conflict('La Cedula ya existe');
         } else {
             data.password = hashedPassword;

@@ -1,6 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { createDoctorSchema, doctorIdSchema, loginSchema, updateDoctorSchema } = require('../utils/validations/schemas/doctors.schema');
+const {
+    createDoctorSchema,
+    doctorIdSchema,
+    loginSchema,
+    updateDoctorSchema
+} = require('../utils/validations/schemas/doctors.schema');
 const validationHandler = require('../utils/middlewares/validationHandler');
 const controller = require('./doctors.controller');
 
@@ -9,7 +14,16 @@ router.get('/add', (req, res) => {
 })
 
 router.post('/add', validationHandler(createDoctorSchema), async (req, res, next) => {
-    const { nombre, apellidoP, apellidoM, usuario, password, cedula, telefono, turno } = req.body;
+    const {
+        nombre,
+        apellidoP,
+        apellidoM,
+        usuario,
+        password,
+        cedula,
+        telefono,
+        turno
+    } = req.body;
     const newDoctor = {
         nombre,
         apellidoP,
@@ -22,9 +36,10 @@ router.post('/add', validationHandler(createDoctorSchema), async (req, res, next
     };
     try {
         const doctorAdded = await controller.doctorCreation(newDoctor)
-        res.send('received');
+        res.render('doctors/added');
     } catch (error) {
         next(error);
+        res.render('doctors/error');
     }
 })
 

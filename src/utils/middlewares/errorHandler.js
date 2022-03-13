@@ -8,11 +8,7 @@ const errorStack = (err, stack) => {
 }
 
 const logErrors = (err, req, res, next) => {
-    if (config.dev) {
-        console.log(err);
-    } else {
-        console.log(err.message);
-    }
+    console.log(err);
     next(err);
 }
 
@@ -32,16 +28,8 @@ const errorHandler = (err, req, res, next) => {
         }
     } = err;
 
-    res.status(statusCode);
-    res.json(errorStack(payload, err.stack));
-
-    // res.render('errors/errorView', {
-    //     error: {
-    //         payload,
-    //         stack: err.stack,
-    //         error: err
-    //     }
-    // })
+    // res.status(statusCode);
+    // res.json(errorStack(payload, err.stack));
 }
 
 module.exports = {

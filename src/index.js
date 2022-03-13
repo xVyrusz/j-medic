@@ -2,6 +2,13 @@ const express = require('express');
 const morgan = require('morgan');
 const exphbs = require('express-handlebars');
 const path = require('path');
+const {
+    logErrors,
+    errorHandler,
+    wrapErrors
+} = require('./utils/middlewares/errorHandler');
+const notFoundHandler = require('./utils/middlewares/notFound');
+
 
 // Initializations
 const app = express();
@@ -37,6 +44,15 @@ app.use('/doctors', require('./routes/doctors'));
 
 // Public
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Not found
+app.use(notFoundHandler);
+
+//Error handlers
+app.use(logErrors);
+app.use(wrapErrors);
+app.use(errorHandler);
+
 
 // Starting the server
 app.listen(app.get('port'), () => {
