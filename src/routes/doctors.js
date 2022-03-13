@@ -22,11 +22,10 @@ router.post('/add', validationHandler(createDoctorSchema), async (req, res, next
     };
     try {
         const doctorAdded = await controller.doctorCreation(newDoctor)
-        console.log(doctorAdded);
+        res.send('received');
     } catch (error) {
         next(error);
     }
-    res.send('received');
 })
 
 module.exports = router;

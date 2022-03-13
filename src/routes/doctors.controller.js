@@ -6,7 +6,7 @@ const saltRounds = 10;
 
 const doctorCreation = async (data) => {
     // validate if user exists
-    // no se k 
+    // no se k
 
     const hashedPassword = await new Promise((resolve, reject) => {
         bcrypt.hash(data.password, saltRounds, (err, hash) => {
@@ -15,16 +15,25 @@ const doctorCreation = async (data) => {
         })
     })
 
-    
-
     // Check if user exists
-    const user = await store.getUserByEmail(email)
-    if(user) {
-        throw boom.conflict('User already exists') 
-    }
+    const objUser = await store.getUser(data);
+    const objCedula = await store.getCedula(data);
+    const user = Object.values(JSON.parse(JSON.stringify(objUser)));
+    const cedula = Object.values(JSON.parse(JSON.stringify(objCedula)));
 
-    data.password = hashedPassword;
-    return await store.crateDoctor(data);
+    console.log(user);
+    console.log(cedula);
+
+    if (user[0].usuario == data.usuario) {
+        throw boom.conflict('El usuario ya existe');
+    } else {
+        if (cedula[0].cedula == data.cedula) {
+            throw boom.conflict('La Cedula ya existe');
+        } else {
+            data.password = hashedPassword;
+            return await store.createDoctor(data);
+        }
+    }
 }
 
 // const loginDoctor = async (email, password) => {

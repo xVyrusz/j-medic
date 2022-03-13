@@ -10,7 +10,7 @@ const connection = knex({
     }
 })
 
-const crateDoctor = async (data) => {
+const createDoctor = async (data) => {
     return await connection('medicos').insert({
         nombreMedico: data.nombre,
         apellidoPMedico: data.apellidoP,
@@ -23,6 +23,20 @@ const crateDoctor = async (data) => {
     });
 }
 
+const getUser = async (data) => {
+    return await connection('medicos').select(
+        'usuario'
+    ).where({usuario: `${data.usuario}`});
+}
+
+const getCedula = async (data) => {
+    return await connection('medicos').select(
+        'cedula'
+    ).where({cedula: `${data.cedula}`});
+}
+
 module.exports = {
-    crateDoctor
+    createDoctor,
+    getUser,
+    getCedula
 }
